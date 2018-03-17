@@ -10,9 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.13.3",
-    "express": "^4.13.2",
+    "expres": "0.0.5",
+    "express": "^4.16.3",
     "express-handlebars": "^2.0.1",
     "express-session": "^1.11.3",
+    "forever": "^0.15.3",
     "mysql": "^2.8.0"
   }
 }
