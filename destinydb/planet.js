@@ -15,6 +15,19 @@ module.exports = function(){
         });
     }
 
+    function getPlanet(res, mysql, context, id, complete){
+        var sql = "SELECT id, name FROM planet WHERE id = ?";
+        var inserts = [id];
+        mysql.pool.query(sql, inserts, function(error, results, fields){
+            if(error){
+                res.write(JSON.stringify(error));
+                res.end();
+            }
+            context.planet = results[0];
+            complete();
+        });
+    }
+
 
     /*Displays all planets. Requires web based javascript to delete users with AJAX*/
 
