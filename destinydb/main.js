@@ -4,7 +4,7 @@
 */
 
 var express = require('express');
-var mysql = require('mysql.js');
+var mysql = require('./dbcon.js');
 var bodyParser = require('body-parser');
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
