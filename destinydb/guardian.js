@@ -187,7 +187,9 @@ module.exports = function(){
     * /id/{{id}}/weapons/{{wid}} -- which is sent by the AJAX form
     */
     router.delete('/id/:id/weapons/:wid', function(req, res){
-
+      console.log("Deleting Weapons from guardian");
+      console.log(id);
+      console.log(wid);
       var mysql = req.app.get('mysql');
       var sql = "DELETE FROM guardians_weapons WHERE id = ? AND wid = ?";
       var inserts = [req.params.id, req.params.wid];
