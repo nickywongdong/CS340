@@ -4,13 +4,14 @@
 */
 
 var express = require('express');
-var mysql = require('./dbcon.js');
+var mysql = require('mysql.js');
 var bodyParser = require('body-parser');
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
-
-const path = require('path')
 const PORT = process.env.PORT || 5000
+
+var connection = mysql.createConnection(process.env.JAWSDB_URL);
+connection.connect();
 
 
 app.engine('handlebars', handlebars.engine);
@@ -41,5 +42,5 @@ app.use(function(err, req, res, next){
 });
 
 app.listen(app.get('port'), function(){
-  console.log('Listening on' + app.get('port') + '; press Ctrl-C to terminate.');
+  console.log('Listening on ' + app.get('port'));
 });
