@@ -1,0 +1,36 @@
+<h1>Destiny Planets</h1>
+
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/guardian">Guardians</a></li>
+  <li><a href="/npc">NPCs</a></li>
+  <li><a href="/planet">Planets</a></li>
+</ul>
+
+
+
+<h2>Add A Planet</h2>
+
+{{#each foo}}
+{{this}}
+{{/each}}
+<table>
+  <h2>Planets</h2>
+    <thead>
+        <th>Name</th>
+    </thead>
+    <tbody>
+
+        {{#each planet}}
+        <tr>
+            <td>{{name}}</td>
+            <td><button onclick="deletePlanet({{id}})">Delete</button></td>
+            <td><a href="/planet/{{id}}">Update</a></td>
+        </tr>
+        {{/each}}
+    </tbody>
+    <form id="addplanet" action="/planet" method="post">
+    Name: <input type="text" name="name"><br>
+    <input type="submit" value="Submit">
+    </form>
+</table>

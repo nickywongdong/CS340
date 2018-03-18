@@ -23,6 +23,9 @@ app.set('mysql', mysql);
 
 app.use('/guardian', require('./guardian.js'));
 app.use('/npc', require('./npc.js'));
+app.use('/planet', require('./planet.js'));
+
+
 
 app.get('/', function (req, res) {
 res.render('index')
