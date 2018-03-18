@@ -41,7 +41,7 @@ module.exports = function(){
     }
 
     function getGuardianWeapons(res, mysql, id, context, complete){
-      var sql = "SELECT weapon.name AS Name, weapon.tier AS Tier, weapon.type AS Type \
+      var sql = "SELECT weapon.id AS wid, guardian.id AS id, weapon.name AS Name, weapon.tier AS Tier, weapon.type AS Type \
       FROM guardians_weapons \
       INNER JOIN guardian on guardian.id = guardians_weapons.guardian_id \
       INNER JOIN weapon on weapon.id = guardians_weapons.weapon_id \
@@ -186,12 +186,12 @@ module.exports = function(){
     /* This route will accept a HTTP DELETE request in the form
     * /id/{{id}}/weapons/{{wid}} -- which is sent by the AJAX form
     */
-    router.delete('/id/:id/weapons/:wid', function(req, res){
+    router.delete('/:id/weapons/:wid', function(req, res){
       console.log("Deleting Weapons from guardian");
       console.log(id);
       console.log(wid);
       var mysql = req.app.get('mysql');
-      var sql = "DELETE FROM guardians_weapons WHERE id = ? AND wid = ?";
+      var sql = "DELETE FROM guardians_weapons WHERE guardian_id = ? AND weapon_id = ?";
       var inserts = [req.params.id, req.params.wid];
       sql = mysql.pool.query(sql, inserts, function(error, results, fields){
         if(error){
