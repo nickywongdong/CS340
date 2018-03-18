@@ -10,8 +10,6 @@ var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 const PORT = process.env.PORT || 5000
 
-var connection = mysql.createConnection(process.env.JAWSDB_URL);
-connection.connect();
 
 
 app.engine('handlebars', handlebars.engine);
