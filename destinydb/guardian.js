@@ -188,8 +188,6 @@ module.exports = function(){
     */
     router.delete('/:id/weapons/:wid', function(req, res){
       console.log("Deleting Weapons from guardian");
-      console.log(id);
-      console.log(wid);
       var mysql = req.app.get('mysql');
       var sql = "DELETE FROM guardians_weapons WHERE guardian_id = ? AND weapon_id = ?";
       var inserts = [req.params.id, req.params.wid];
