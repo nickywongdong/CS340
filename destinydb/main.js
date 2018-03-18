@@ -6,7 +6,7 @@
 var express = require('express');
 var mysql = require('./dbcon.js');
 var bodyParser = require('body-parser');
-
+var PORT = 22222;
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 
@@ -14,7 +14,8 @@ app.engine('handlebars', handlebars.engine);
 app.use(bodyParser.urlencoded({extended:true}));
 app.use('/static', express.static('public'));
 app.set('view engine', 'handlebars');
-app.set('port', process.argv[2]);
+//app.set('port', process.argv[2]);
+app.set('port', PORT);
 app.set('mysql', mysql);
 
 
