@@ -17,7 +17,13 @@ app.set('view engine', 'handlebars');
 app.set('port', process.argv[2]);
 app.set('mysql', mysql);
 
+
 app.use('/guardian', require('./guardian.js'));
+app.use('/npc', require('./npc.js'));
+
+app.get('/', function (req, res) {
+res.render('index')
+})
 
 app.use(function(req,res){
   res.status(404);

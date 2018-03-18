@@ -1,5 +1,11 @@
-<h1>Current Guardians:</h1>
-<h1>CS340 - Final Project</h1>
+<h1>Current Guardians</h1>
+
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/guardian">Guardians</a></li>
+  <li><a href="/npc">NPCs</a></li>
+</ul>
+
 {{#each foo}}
 {{this}}
 {{/each}}
@@ -12,7 +18,7 @@
         <th>Level</th>
     </thead>
     <tbody>
-        {{#each people}}
+        {{#each guardians}}
         <tr>
             <td>{{name}}</td>
             <td>{{class}}</td>
@@ -21,6 +27,7 @@
             <td>{{level}}</td>
             <td><button onclick="deleteGuardian({{id}})">Delete</button></td>
             <td><a href="/guardian/{{id}}">Update</a></td>
+            <td><a href="/guardian/weapons/{{id}}">Weapons</a></td>
         </tr>
         {{/each}}
     </tbody>

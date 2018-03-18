@@ -1,0 +1,80 @@
+<h1>Destiny NPCs</h1>
+
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/guardian">Guardians</a></li>
+  <li><a href="/npc">NPCs</a></li>
+</ul>
+
+{{#each foo}}
+{{this}}
+{{/each}}
+
+
+<div>
+<h3> Assign a Strike to a Guardian </h3>
+
+    <form id="add_guardian_strike" action="/npc" method="post">
+      Guardian: <select name="gid">
+          {{#each guardians}}
+          <option value="{{gid}}">{{name}}</option>
+          {{/each}}
+      </select><br>
+    Strikes:<sup>Multi-select</sup> <select multiple name="strikes">
+
+        {{#each strike}}
+        <option value="{{sid}}">{{name}}</option>
+        {{/each}}
+    </select><br>
+    <input type="submit" value="Submit">
+    </form>
+</div>
+
+
+<br/>
+<h3> NPCs: </h3>
+<table>
+    <thead>
+        <th>Name</th>
+        <th>Class</th>
+        <th>Race</th>
+        <th>Current Planet</th>
+    </thead>
+    <tbody>
+        {{#each npcs}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{class}}</td>
+            <td>{{race}}</td>
+            <td>{{current_planet}}</td>
+            <td><button onclick="deletenpc({{nid}})">Delete</button></td>
+            <td><a href="/npc/{{id}}">Update</a></td>
+        </tr>
+        {{else}}
+        <b> No NPCs found! Grant some using the form. </b>
+        {{/each}}
+
+    </tbody>
+</table>
+
+
+<h3> Guardians on Strikes: </h3>
+<table>
+    <thead>
+        <th>Guardian</th>
+        <th>Strike</th>
+    </thead>
+    <tbody>
+        {{#each guardian_on_strike}}
+        <tr>
+            <td>{{Guardian}}</td>
+            <td>{{Strike}}</td>
+            <td><button onclick="removeStrikeGuardian({{gid}},{{sid}})">Delete</button></td>
+            <td><a href='#' onclick='javascript: alert("You can implement it just like the Add form.")'>Update</a></td>
+        </tr>
+        {{else}}
+        <b> No Guardians with any Strikes found! Grant some using the form. </b>
+        {{/each}}
+
+    </tbody>
+</table>

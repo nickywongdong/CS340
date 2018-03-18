@@ -1,0 +1,43 @@
+<h1>Editing {{guardian.name}}'s Weapons</h1>
+
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/guardian">Guardians</a></li>
+  <li><a href="/npc">NPCs</a></li>
+</ul>
+
+
+<h2>Move a Weapon to {{guardian.name}}'s Inventory:</h2>
+
+<form id="add_weapon" action="/guardian/weapons/{{guardian.id}}" method="post">
+  Weapons: <select name="wid">
+      {{#each weapons}}
+      <option value="{{wid}}">{{name}}</option>
+      {{/each}}
+  </select><br>
+  <input type="submit" value="Submit">
+</form>
+
+
+{{#each foo}}
+{{this}}
+{{/each}}
+<table>
+    <thead>
+        <th>Name</th>
+        <th>Tier</th>
+        <th>Type</th>
+    </thead>
+    <tbody>
+        {{#each guardian_weapons}}
+        <tr>
+            <td>{{Name}}</td>
+            <td>{{Tier}}</td>
+            <td>{{Type}}</td>
+            <td><button onclick="deleteWeapon({{id}})">Delete</button></td>
+        </tr>
+        {{else}}
+        <b> This Guardian has no weapons! Grant some using the form. </b>
+        {{/each}}
+    </tbody>
+</table>
