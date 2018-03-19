@@ -16,6 +16,36 @@
 
 </head>
 <body>
-	{{{body}}}
+	<p>
+		I decided to do my final project on the game Destiny. I thought it was fitting because there are many entities which have relationships to each other. The game Destiny is a MMOFPS (massively multiplayer online first person shooter). Players (or Guardians) will complete strikes or other missions to progress throughout the game. They will collect weapons along their gameplay that they can equip in their inventory. This project is only a small model of what the Destiny game appears to be. I originally thought that NPC’s would assign strikes to the players, but as I progressed through the project I realized that this didn’t make much sense according to the game, so I left the strikes page in the NPCs page.
+	</p>
+
+	<p>
+		Database Outline:
+Entities:
+The entities that are used in this project are guardians (which are the players), strikes, weapons, planets, and NPCs (non-playable characters).
+Attributes of the Entities:
+-	Guardians have a name, class, race level, and current planet
+-	Strikes have a name
+-	Weapons have a name, type, and tier
+-	Planets have a name
+-	NPCs have a name, class, race, and current planet
+In addition to these entities, I have two other tables which define the many-to-many relationship between:
+Guardians -> Strikes
+Guardians -> Weapons
+These tables are not defined in the ERD diagram because they are not entities within my database, however they are defined within the Schema Diagram.
+Relationships:
+The player can have many weapons, while a weapon can also be owned by many players.
+The player can be on a current planet, while a planet can have many players.
+The player can be on many strikes, while a strike can have many players.
+The NPC can be on a current planet, while a planet can have many NPCs.
+Along with these relationships are certain restrictions:
+The player, and NPC must be on a current planet.
+The rest of the relationships don’t have a restriction.
+Every entity has an ID, so in the ERD diagram, because I didn’t have enough room to display the ID attribute on certain entities, I omitted them however they are in the Schema diagram.
+	</p>
+	<a href="https://nickywongdong.github.io/CS340/Final/Report/ERD.pdf">Database ER Diagram</a>
+	<a href="https://nickywongdong.github.io/CS340/Final/Report/Schema.pdf">Database Schema</a>
+	<a href="https://nickywongdong.github.io/CS340/Final/Report/creaete_tables.sql">Database Queries</a>
 </body>
 </html>
