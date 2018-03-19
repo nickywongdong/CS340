@@ -3,21 +3,10 @@ module.exports = function(){
     var express = require('express');
     var router = express.Router();
 
-    /* get people to populate in dropdown */
-    function getGuardian(res, mysql, context, complete){
-        mysql.pool.query("SELECT id AS gid, name FROM guardian", function(error, results, fields){
-            if(error){
-                res.write(JSON.stringify(error));
-                res.end();
-            }
-            context.guardian = results;
-            complete();
-        });
-    }
 
     /* get weapons function */
     function getWeapons(res, mysql, context, complete){
-        sql = "SELECT id AS wid, name, tier, type FROM weapon";
+        sql = "SELECT id, name, tier, type FROM weapon";
         mysql.pool.query(sql, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
@@ -28,32 +17,49 @@ module.exports = function(){
         });
     }
 
-    /* Display one guardian's weapons for viewing */
+    /*Displays all weapons. Requires web based javascript to delete users with AJAX*/
 
-    router.get('/:wid', function(req, res){
-        callbackCount = 0;
+    router.get('/', function(req, res){
+        var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["updateweapons.js"];
+        context.jsscripts = ["deletesingleweapon.js"];
         var mysql = req.app.get('mysql');
-        getGuardian(res, mysql, context, req.params.id, complete);
         getWeapons(res, mysql, context, complete);
         function complete(){
             callbackCount++;
-            if(callbackCount >= 2){
-                res.render('update-weapons', context);
+            if(callbackCount >= 1){
+                res.render('weapons', context);
             }
 
         }
     });
 
 
+        /* Adds a weapon, redirects to the weapons page after adding */
 
-    /* Route to delete a weapon from a guardian's inventory */
+        router.post('/', function(req, res){
+            var mysql = req.app.get('mysql');
+            var sql = "INSERT INTO weapon (name, type, tier) VALUES (?,?,?)";
+            var inserts = [req.body.name, req.body.type, req.body.tier];
+            sql = mysql.pool.query(sql,inserts,function(error, results, fields){
+                if(error){
+                    res.write(JSON.stringify(error));
+                    res.end();
+                }else{
+                    res.redirect('/weapons');
+                }
+            });
+        });
 
-    router.delete('/weapon/:wid/guardian/:gid', function(req, res){
+
+
+
+    /* Route to delete a weapon */
+
+    router.delete('/:id', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "DELETE FROM guardian WHERE wid = ? AND gid = ?";
-        var inserts = [req.params.wid, req.params.gid];
+        var sql = "DELETE FROM weapon WHERE id = ?";
+        var inserts = [req.params.id];
         sql = mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));

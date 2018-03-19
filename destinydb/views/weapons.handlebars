@@ -1,4 +1,4 @@
-<h1>Destiny Planets</h1>
+<h1>Destiny Weapons</h1>
 
 <ul>
   <li><a href="/">Home</a></li>
@@ -10,7 +10,7 @@
 
 
 
-<h2>Add A Planet</h2>
+<h2>Add A Weapon</h2>
 
 
 <table>
@@ -19,15 +19,19 @@
     </thead>
     <tbody>
 
-        {{#each planets}}
+        {{#each weapons}}
         <tr>
             <td>{{name}}</td>
-            <td><button onclick="deletePlanet({{id}})">Delete</button></td>
+            <td>{{type}}</td>
+            <td>{{tier}}</td>
+            <td><button onclick="deleteWeapon({{id}})">Delete</button></td>
         </tr>
         {{/each}}
     </tbody>
-    <form id="addplanet" action="/planet" method="post">
+    <form id="addWeapon" action="/weapons" method="post">
     Name: <input type="text" name="name"><br>
+    Type: <input type="text" name="type"><br>
+    Tier: <input type="text" name="tier"><br>
     <input type="submit" value="Submit">
     </form>
 </table>

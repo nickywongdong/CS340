@@ -23,6 +23,7 @@ app.set('mysql', mysql);
 app.use('/guardian', require('./guardian.js'));
 app.use('/npc', require('./npc.js'));
 app.use('/planet', require('./planet.js'));
+app.use('/weapons', require('./weapons.js'));
 
 app.get('/', function (req, res) {
 res.render('index')

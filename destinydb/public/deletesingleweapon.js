@@ -1,7 +1,6 @@
-function deleteWeapon(id, wid){
-    console.log("deleting weapon...");
+function deleteWeapon(id){
     $.ajax({
-        url: '/guardian/' + id + '/weapons/' + wid,
+        url: '/weapons/' + id,
         type: 'DELETE',
         success: function(result){
             window.location.reload(true);
