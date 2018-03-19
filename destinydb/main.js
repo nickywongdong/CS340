@@ -9,12 +9,14 @@ var bodyParser = require('body-parser');
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
 
+const PORT = process.env.PORT || 5000
+
 app.engine('handlebars', handlebars.engine);
 app.use(bodyParser.urlencoded({extended:true}));
 app.use('/static', express.static('public'));
 app.set('view engine', 'handlebars');
 //app.set('port', process.argv[2]);
-app.set('port', 22223);
+app.set('port', PORT);
 app.set('mysql', mysql);
 
 
@@ -38,5 +40,5 @@ app.use(function(err, req, res, next){
 });
 
 app.listen(app.get('port'), function(){
-  console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
+  console.log('Express started on port ' + app.get('port') + '; press Ctrl-C to terminate.');
 });
