@@ -56,7 +56,7 @@ CREATE TABLE npc (
     weapon_id int,
     guardian_id int,
     planet_id int,
-    home_world VARCHAR(255) NOT NULL,
+    current_planet VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     class VARCHAR(255) NOT NULL,
     race VARCHAR(255) NOT NULL,
@@ -134,7 +134,7 @@ VALUES
 ('IMgrenade', 'Titan', 'Human', '12', 'Earth');
 
 -- Inserting initial NPCs
-INSERT INTO npc (name, class, race, home_world)
+INSERT INTO npc (name, class, race, current_planet)
 VALUES
 ('Cayde-6', 'Hunter', 'EXO', 'Earth'),
 ('Ikora Rey', 'Warlock', 'Human', 'Earth'),
