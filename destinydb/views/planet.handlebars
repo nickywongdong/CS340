@@ -11,11 +11,8 @@
 
 <h2>Add A Planet</h2>
 
-{{#each foo}}
-{{this}}
-{{/each}}
+
 <table>
-  <h2>Planets</h2>
     <thead>
         <th>Name</th>
     </thead>
@@ -25,7 +22,6 @@
         <tr>
             <td>{{name}}</td>
             <td><button onclick="deletePlanet({{id}})">Delete</button></td>
-            <td><a href="/planet/{{id}}">Update</a></td>
         </tr>
         {{/each}}
     </tbody>

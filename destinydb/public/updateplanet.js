@@ -1,15 +1,6 @@
-function updateWeapons(id){
-    $.ajax({
-        url: '/planet/' + id,
-        type: 'PUT',
-        data: $('#update-weapons').serialize(),
-        success: function(result){
-            window.location.replace("./");
-        }
-    })
-};
 
-function deleteGuardian(id){
+
+function deletePlanet(id){
     $.ajax({
         url: '/planet/' + id,
         type: 'DELETE',

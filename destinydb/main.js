@@ -8,24 +8,19 @@ var mysql = require('./dbcon.js');
 var bodyParser = require('body-parser');
 var app = express();
 var handlebars = require('express-handlebars').create({defaultLayout:'main'});
-const PORT = process.env.PORT || 5000
-
-
 
 app.engine('handlebars', handlebars.engine);
 app.use(bodyParser.urlencoded({extended:true}));
 app.use('/static', express.static('public'));
 app.set('view engine', 'handlebars');
 //app.set('port', process.argv[2]);
-app.set('port', PORT);
+app.set('port', 22223);
 app.set('mysql', mysql);
 
 
 app.use('/guardian', require('./guardian.js'));
 app.use('/npc', require('./npc.js'));
 app.use('/planet', require('./planet.js'));
-
-
 
 app.get('/', function (req, res) {
 res.render('index')
@@ -43,5 +38,5 @@ app.use(function(err, req, res, next){
 });
 
 app.listen(app.get('port'), function(){
-  console.log('Listening on ' + app.get('port'));
+  console.log('Express started on http://localhost:' + app.get('port') + '; press Ctrl-C to terminate.');
 });

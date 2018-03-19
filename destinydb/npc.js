@@ -18,7 +18,7 @@ module.exports = function(){
     /* get guardians with their strikes */
 
 function getGuardiansWithStrikes(res, mysql, context, complete){
-    sql = "SELECT guardian.name AS Guardian, strike.name AS Strike FROM guardian_on_strike INNER JOIN guardian on guardian.id = guardian_on_strike.guardian_id INNER JOIN strike on strike.id = guardian_on_strike.strike_id ORDER BY Guardian, Strike"
+    sql = "SELECT guardian_on_strike.guardian_id AS gsid, guardian_on_strike.strike_id AS ssid, guardian.name AS Guardian, strike.name AS Strike FROM guardian_on_strike INNER JOIN guardian on guardian.id = guardian_on_strike.guardian_id INNER JOIN strike on strike.id = guardian_on_strike.strike_id ORDER BY Guardian, Strike"
      mysql.pool.query(sql, function(error, results, fields){
         if(error){
             res.write(JSON.stringify(error));
@@ -49,13 +49,13 @@ function getGuardiansWithStrikes(res, mysql, context, complete){
                 res.write(JSON.stringify(error));
                 res.end();
             }
-            context.planet  = results;
+            context.planet = results;
             complete();
         });
     }
 
     function getNPCs(res, mysql, context, complete){
-        mysql.pool.query("SELECT npc.id as nid, npc.name, planet.name AS current_planet, class, race FROM npc INNER JOIN planet ON home_world = planet.name", function(error, results, fields){
+        mysql.pool.query("SELECT npc.id as nid, npc.name, planet.name AS current_planet, class, race FROM npc INNER JOIN planet ON current_planet = planet.name", function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
                 res.end();
@@ -83,7 +83,7 @@ function getGuardiansWithStrikes(res, mysql, context, complete){
     router.get('/', function(req, res){
         var callbackCount = 0;
         var context = {};
-        context.jsscripts = ["deletenpc.js"];
+        context.jsscripts = ["updatenpc.js"];
         var mysql = req.app.get('mysql');
         getNPCs(res, mysql, context, complete);
         getGuardians(res, mysql, context, complete);
@@ -119,10 +119,11 @@ function getGuardiansWithStrikes(res, mysql, context, complete){
 
     /* Adds an npc, redirects to the npc page after adding */
 
-    /*router.post('/', function(req, res){
+    router.post('/', function(req, res){
+      console.log("adding an npc");
         var mysql = req.app.get('mysql');
-        var sql = "INSERT INTO npc (name, class, race, home_world) VALUES (?,?,(select name from planet where id = ?),?)";
-        var inserts = [req.body.name, req.body.class, req.body.race, req.body.home_world, req.body.planet_id];
+        var sql = "INSERT INTO npc (name, class, race, current_planet) VALUES (?,?,?,(select name from planet where id = ?))";
+        var inserts = [req.body.name, req.body.class, req.body.race, req.body.current_planet];
         sql = mysql.pool.query(sql,inserts,function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
@@ -131,29 +132,13 @@ function getGuardiansWithStrikes(res, mysql, context, complete){
                 res.redirect('/npc');
             }
         });
-    });*/
-
-    /* The URI that update data is sent to in order to update a npc */
-
-    router.put('/:nid', function(req, res){
-        var mysql = req.app.get('mysql');
-        var sql = "UPDATE npc SET name=?, class=?, race=?, home_world=(select name from planet where id = ?), WHERE nid=?";
-        var inserts = [req.body.name, req.body.class, req.body.race, req.body.home_world, req.params.id];
-        sql = mysql.pool.query(sql,inserts,function(error, results, fields){
-            if(error){
-                res.write(JSON.stringify(error));
-                res.end();
-            }else{
-                res.status(200);
-                res.end();
-            }
-        });
     });
+
 
     /* Associate strike with a guardian and
    * then redirect to the npc page after adding
    */
-  router.post('/', function(req, res){
+  router.post('/strike/', function(req, res){
       //console.log("We get the multi-select certificate dropdown as ", req.body.certs)
       var mysql = req.app.get('mysql');
       // let's get out the certificates from the array that was submitted by the form
@@ -177,12 +162,29 @@ function getGuardiansWithStrikes(res, mysql, context, complete){
       res.redirect('/npc');
   });
 
+  /* Route to delete a strike from guardian, simply returns a 202 upon success. Ajax will handle this. */
+
+  router.delete('/:gid/strike/:sid', function(req, res){
+      var mysql = req.app.get('mysql');
+      var sql = "DELETE FROM guardian_on_strike WHERE guardian_id = ? AND strike_id = ?";
+      var inserts = [req.params.gid, req.params.sid];
+      sql = mysql.pool.query(sql, inserts, function(error, results, fields){
+          if(error){
+              res.write(JSON.stringify(error));
+              res.status(400);
+              res.end();
+          }else{
+              res.status(202).end();
+          }
+      })
+  });
+
     /* Route to delete a npc, simply returns a 202 upon success. Ajax will handle this. */
 
     router.delete('/:nid', function(req, res){
         var mysql = req.app.get('mysql');
-        var sql = "DELETE FROM npc WHERE nid = ?";
-        var inserts = [req.params.id];
+        var sql = "DELETE FROM npc WHERE id = ?";
+        var inserts = [req.params.nid];
         sql = mysql.pool.query(sql, inserts, function(error, results, fields){
             if(error){
                 res.write(JSON.stringify(error));
